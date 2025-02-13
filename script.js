@@ -19,9 +19,8 @@ class CurrencyConverter extends React.Component {
     return amount * rate;
   }
 
-  //handle user inputs
-
   convert(amount, rate, equation) {
+    console.log(typeof amount);
     const input = parseFloat(amount);
     if (Number.isNaN(input)) {
       return '';
@@ -30,30 +29,15 @@ class CurrencyConverter extends React.Component {
   }
 
   handleUsdChange(event) {
-    const input = parseFloat(event.target.value);
-    if (Number.isNaN(input)) {
-      this.setState({
-        usd: '',
-        euro: '',
-      });
-      return; // early return
-    }
     const euro = this.convert(event.target.value, this.state.rate, this.toEuro);
     this.setState({
       usd: event.target.value,
       euro
     });
   }
+
   handleEuroChange(event) {
-    const input = parseFloat(event.target.value);
-    if (Number.isNaN(input)) {
-      this.setState({
-        usd: '',
-        euro: '',
-      });
-      return;  // early return
-    }
-    const usd =  this.convert(event.target.value, this.state.rate, this.toUsd);
+    const usd = this.convert(event.target.value, this.state.rate, this.toUsd);
     this.setState({
       euro: event.target.value,
       usd
@@ -62,7 +46,6 @@ class CurrencyConverter extends React.Component {
 
   render() {
     const { rate, usd, euro } = this.state;
-
     return (
       <div className="container">
         <div className="text-center p-3 mb-2">
@@ -72,9 +55,9 @@ class CurrencyConverter extends React.Component {
         <div className="row text-center">
           <div className="col-12">
             <span className="mr-1">USD</span>
-            <input value={usd} onChange={this.handleUsdChange} type="number" />
+            <CurrencyInput value={usd} handleChange={this.handleUsdChange} />
             <span className="mx-3">=</span>
-            <input value={euro} onChange={this.handleEuroChange} type="number" />
+            <CurrencyInput value={euro} handleChange={this.handleEuroChange} />
             <span className="ml-1">EURO</span>
           </div>
         </div>
